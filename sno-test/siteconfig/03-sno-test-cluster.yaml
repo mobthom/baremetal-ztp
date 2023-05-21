@@ -9,7 +9,7 @@ spec:
   baseDomain: "mobins.home.lab"
   pullSecretRef:
     name: "pullsecret-cluster-sno-test"
-  clusterImageSetNameRef: "openshift-4.12"
+  clusterImageSetNameRef: "img4.10.42-x86-64-appsub"
   sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCrA3Q4NH1ygMjzTOZ9Xy75NPnAqtMpYHjmxMupucoSDLMIsMJYHnUJWWUDQzE8kZAAjdBS2WCo8D+CtAZ4P147gqKInVewo3pLe+R0MF+SeSCszn1a9jhpT8pLCvtnVI1QDHKX+jLxLlu3hYgiNRzs0ROBbHHFu1LZQS/CTQ/oa6W51ONvWQj9SshjclcKjvgZ0rcOpLyTmQKMD3+9iQB2tFC1uGs/yqWgea56ohGT4hrEERukju8UNcHU6WzqEGkl8VXAua1MmcLlENve9UyQw3SQkv8TaH3dxFQquCKLvvG6XieoJCEzd6hoDPuc7ev1Ep6PB7vhTYygFEhqfBeokE3KwbT4qWXaTkIdyVzHIUmPQo4ZW1gLcgVrBsrfhDKCnAgO9NHjO6sdHlWplvtGdC93BiyB0zGoflr4fk1sfyX8X61pGR8abv1PeqskwhZuNnMMfrgB81uVuv3Mr9aatPWhaM/LhZ0x+TsV0YlzaYTxxnJj3ao6QL144ZlvyEU= mobthoma@mobins-MacBook-Pro"
   clusters:
   - clusterName: "sno-test"
