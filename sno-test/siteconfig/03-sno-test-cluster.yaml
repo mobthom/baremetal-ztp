@@ -79,9 +79,9 @@ spec:
                 - mobins.home.lab
                 server:
                 - 192.168.100.51
-#            routes:
-#              config:
-#              - destination: ::/0
-#                next-hop-interface: eno1
-#                next-hop-address: 1111:2222:3333:4444::1
-#                table-id: 254
+            routes:
+              config:
+              - destination: 0.0.0.0/0
+                next-hop-interface: eno3
+                next-hop-address: 192.168.100.1
+                table-id: 254
