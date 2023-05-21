@@ -28,7 +28,7 @@ spec:
         hostPrefix: 23
   
     serviceNetwork:
-      - 10.128.0.0/14
+      - 172.30.0.0/16
 
     # Optionally; This can be used to override the KlusterletAddonConfig that is created for this cluster:
     #crTemplates:
