@@ -1,0 +1,87 @@
+# example-node1-bmh-secret & assisted-deployment-pull-secret need to be created under same namespace example-sno
+---
+apiVersion: ran.openshift.io/v1
+kind: SiteConfig
+metadata:
+  name: "sno-test"
+  namespace: "sno-test"
+spec:
+  baseDomain: "mobins.home.lab"
+  pullSecretRef:
+    name: "pullsecret-cluster-sno-test"
+  clusterImageSetNameRef: "openshift-4.10"
+  sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCrA3Q4NH1ygMjzTOZ9Xy75NPnAqtMpYHjmxMupucoSDLMIsMJYHnUJWWUDQzE8kZAAjdBS2WCo8D+CtAZ4P147gqKInVewo3pLe+R0MF+SeSCszn1a9jhpT8pLCvtnVI1QDHKX+jLxLlu3hYgiNRzs0ROBbHHFu1LZQS/CTQ/oa6W51ONvWQj9SshjclcKjvgZ0rcOpLyTmQKMD3+9iQB2tFC1uGs/yqWgea56ohGT4hrEERukju8UNcHU6WzqEGkl8VXAua1MmcLlENve9UyQw3SQkv8TaH3dxFQquCKLvvG6XieoJCEzd6hoDPuc7ev1Ep6PB7vhTYygFEhqfBeokE3KwbT4qWXaTkIdyVzHIUmPQo4ZW1gLcgVrBsrfhDKCnAgO9NHjO6sdHlWplvtGdC93BiyB0zGoflr4fk1sfyX8X61pGR8abv1PeqskwhZuNnMMfrgB81uVuv3Mr9aatPWhaM/LhZ0x+TsV0YlzaYTxxnJj3ao6QL144ZlvyEU= mobthoma@mobins-MacBook-Pro"
+  clusters:
+  - clusterName: "sno-test"
+    networkType: "OVNKubernetes"
+    clusterLabels:
+      # These example cluster labels correspond to the bindingRules in the PolicyGenTemplate examples in ../policygentemplates:
+      # ../policygentemplates/common-ranGen.yaml will apply to all clusters with 'common: true'
+      common: true
+      # ../policygentemplates/group-du-sno-ranGen.yaml will apply to all clusters with 'group-du-sno: ""'
+      group-du-sno: ""
+      # ../policygentemplates/example-sno-site.yaml will apply to all clusters with 'sites: "example-sno"'
+      # Normally this should match or contain the cluster name so it only applies to a single cluster
+      sites : "sno-test"
+    clusterNetwork:
+      - cidr: 10.128.0.0/14
+        hostPrefix: 23
+  
+    serviceNetwork:
+      - 10.128.0.0/14
+
+    # Optionally; This can be used to override the KlusterletAddonConfig that is created for this cluster:
+    #crTemplates:
+    #  KlusterletAddonConfig: "KlusterletAddonConfigOverride.yaml"
+    nodes:
+      - hostName: "sno-test.mobins.home.lab"
+        role: "master"
+        # Optionally; This can be used to configure desired BIOS setting on a host:
+        #biosConfigRef:
+        #  filePath: "example-hw.profile"
+        bmcAddress: "idrac-virtualmedia+https://10.36.213.60/redfish/v1/Systems/System.Embedded.1"
+        bmcCredentialsName:
+          name: "bmh-secret-node1"
+        bootMACAddress: "44:A8:42:08:F0:96"
+        # Use UEFISecureBoot to enable secure boot
+        bootMode: "UEFI"
+        rootDeviceHints:
+          deviceName: "/dev/sda"
+        # example of diskPartition below is used for image registry (check ImageRegistry.md for more details), but it's not limited to this use case
+#        diskPartition:
+#          - device: /dev/disk/by-id/wwn-0x11111000000asd123 # match rootDeviceHints
+#            partitions:
+#              - mount_point: /var/imageregistry
+#                size: 102500
+#                start: 344844
+#        cpuset: "0-1,20-21" # match the value with PerformanceProfile's .spec.cpu.reserved for workload partitioning. See /example/policygentemplates/group-du-sno-ranGen.yaml
+        nodeNetwork:
+          interfaces:
+            - name: eno3
+              macAddress: "44:A8:42:08:F0:96"
+          config:
+            interfaces:
+              - name: eno3
+                type: ethernet
+                state: up
+                macAddress: "44:A8:42:08:F0:96"
+                ipv4:
+                  enabled: true
+                  address:
+                  # For SNO sites with static IP addresses, the node-specific,
+                  # API and Ingress IPs should all be the same and configured on
+                  # the interface
+                  - ip: 192.168.100.42
+                    prefix-length: 24
+            dns-resolver:
+              config:
+                search:
+                - mobins.home.lab
+                server:
+                - 192.168.100.51
+#            routes:
+#              config:
+#              - destination: ::/0
+#                next-hop-interface: eno1
+#                next-hop-address: 1111:2222:3333:4444::1
+#                table-id: 254

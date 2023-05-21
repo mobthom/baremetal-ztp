@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+name: clusters-sub
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+name: sno-test
+namespace: openshift-gitops
+spec:
+destination:
+    server: https://kubernetes.default.svc
+    namespace: clusters-sub
+project: ztp-app-project
+source:
+    path: sno-test/siteconfig
+    repoURL: {{ git_repo }}
+    targetRevision: {{ branch }}
+    # uncomment the below plugin if you will be adding the plugin binaries in the same repo->dir where
+    # the sitconfig.yaml exist AND use the ../../hack/patch-argocd-dev.sh script to re-patch the deployment-repo-server
+    #plugin:
+    #  name: kustomize-with-local-plugins
+syncPolicy:
+    automated:
+    prune: true
+    selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
