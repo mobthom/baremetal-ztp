@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+ name: ztp-repo
+ namespace: openshift-gitops
+labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+    url: https://github.com/mobthom/baremetal-ztp.git
+    password: mobthom
+    username: wZzyACJBG6yyKWA
+    insecure: "false" # Ignore validity of server's TLS certificate. Defaults to "false"
+    forceHttpBasicAuth: "false" # Skip auth method negotiation and force usage of HTTP basic auth. Defaults to "false"
+    enableLfs: "false" # Enable git-lfs for this repository. Defaults to "false"
+    project: default
+    name: ztp-repo
+
