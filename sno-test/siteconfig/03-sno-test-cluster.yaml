@@ -39,7 +39,7 @@ spec:
         # Optionally; This can be used to configure desired BIOS setting on a host:
         #biosConfigRef:
         #  filePath: "example-hw.profile"
-        bmcAddress: "redfish-virtualmedia+https://10.36.213.60/redfish/v1/Systems/System.Embedded.1"
+        bmcAddress: "idrac-virtualmedia+https://10.36.213.60/redfish/v1/Systems/System.Embedded.1"
         bmcCredentialsName:
           name: "bmh-secret-node1"
         disableCertificateVerification: true    
