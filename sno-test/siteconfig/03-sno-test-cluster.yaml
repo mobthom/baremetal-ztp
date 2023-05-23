@@ -42,6 +42,7 @@ spec:
         bmcAddress: "redfish-virtualmedia+https://10.36.213.60/redfish/v1/Systems/System.Embedded.1"
         bmcCredentialsName:
           name: "bmh-secret-node1"
+        disableCertificateVerification: true    
         bootMACAddress: "44:A8:42:08:F0:96"
         # Use UEFISecureBoot to enable secure boot
         bootMode: "UEFI"
